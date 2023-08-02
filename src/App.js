@@ -7,16 +7,17 @@ import React, { useState } from 'react';
 
 function App() {
   const [results, setResults] = useState(null);
+  const yearlyData = [];
+  let savings = 0;
+
   const calculateHandler = (userInput) => {
     
-    const yearlyData = []; // per-year results
-
     let currentSavings = +userInput["current-savings"]; 
     const yearlyContribution = +userInput["yearly-contribution"];
     const expectedReturn = +userInput["expected-return"] / 100;
     const duration = +userInput["duration"];
 
-    // The below code calculates yearly results (total savings, interest etc)
+  
     for (let i = 0; i < duration; i++) {
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
@@ -27,8 +28,10 @@ function App() {
         yearlyContribution: yearlyContribution,
       });
     }
+    
+    savings = userInput['current-savings'];
+    setResults(yearlyData);
 
-    // do something with yearlyData ...
   };
 
   return (
@@ -36,10 +39,8 @@ function App() {
       <Header />
 
       <FormComponent onCalculate={calculateHandler} />
-      {/* Todo: Show below table conditionally (only once result data is available) */}
-      {/* Show fallback text if no data is available */}
-
-      <ResultsTable />
+      { !results && <h2>No data to Show</h2> }
+      { results && <ResultsTable data={results} initialInvestment={savings} /> }
     </div>
   );
 }

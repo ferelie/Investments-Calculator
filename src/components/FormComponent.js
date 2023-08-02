@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-const initialState = ""
+const initialState = {
+  'current-savings': 10000,
+  'yearly-contribution': 1200,
+  'expected-return': 7,
+  'duration': 10
+}
 const FormComponent = ({onCalculate}) => {
   const [inputState, setInputState] = useState(initialState);
 
